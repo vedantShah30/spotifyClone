@@ -71,7 +71,7 @@ async function getSongs(folder) {
             <li>
                 <img class="invert" src="/images/music.svg" alt="">
                 <div class="songInfo">${song.replaceAll('%20', ' ')}</div>
-                <img class="invert playBtnInLibrary" src="/images/LibraryPlay.svg" alt="">
+                <img class="invert playBtnInLibrary" src="./images/LibraryPlay.svg" alt="">
             </li>
         `
     }
@@ -85,9 +85,9 @@ async function getSongs(folder) {
         songPlaylistUL.innerHTML = songPlaylistUL.innerHTML + `
         
             <li>
-                <img class="invert musicImg" src="/images/music.svg" alt="">
+                <img class="invert musicImg" src="./images/music.svg" alt="">
                 <div class="songInfoInPlaylist">${song.replaceAll('%20', ' ')}</div>
-                <img class="invert playImg" src="/images/LibraryPlay.svg" alt="">
+                <img class="invert playImg" src="./images/LibraryPlay.svg" alt="">
             </li>
         
         `
@@ -117,7 +117,7 @@ const playMusic = (track, pause = false) => {
     currentSong.src = `/${currFolder}/` + track
     if (!pause) {
         currentSong.play()
-        play.src = "/images/pause.svg"
+        play.src = "./images/pause.svg"
     }
     document.querySelector('.songName').innerHTML = decodeURI(track)
     document.querySelector('.songTime').innerHTML = "00:00 / 00:00"
@@ -126,7 +126,7 @@ const playMusic = (track, pause = false) => {
 let currentSong = new Audio;
 
 async function displayAlbums() {
-    let songFetch = await fetch(`/songs/`)
+    let songFetch = await fetch(`./`)
     let response = await songFetch.text()
     let div = document.createElement('div')
     div.innerHTML = response
@@ -145,13 +145,13 @@ async function displayAlbums() {
             let folder = e.href.split('/').slice(-2)[0]
 
             // Get metadata of the folder
-            songFetch = await fetch(`/songs/${folder}/info.json`)
+            songFetch = await fetch(`./${folder}/info.json`)
             response = await songFetch.json()
             cardContainer.innerHTML = cardContainer.innerHTML + `
                     <div class="cardHover">
                         <div data-folder="${folder}" class="card">
                             <div class="cardImgContainer">
-                                <img src="/songs/${folder}/cover.jpg" alt="">
+                                <img src="./${folder}/cover.jpg" alt="">
                             </div>
                             <h2>${response.title}</h2>
                             <p>${response.description}</p>
@@ -166,7 +166,7 @@ async function displayAlbums() {
     // Load all songs when playlist is clicked
     Array.from(document.getElementsByClassName('card')).forEach((e) => {
         e.addEventListener('click', async item => {
-            songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`)
+            songs = await getSongs(`./${item.currentTarget.dataset.folder}`)
             songListInPlaylist.classList.add('classAdded')
         })
     })
@@ -175,7 +175,7 @@ async function displayAlbums() {
 // Main function
 async function main() {
 
-    await getSongs(`songs/calm`)
+    await getSongs(`./calm`)
     playMusic(songs[0], true)
 
     //Display all the albums
@@ -185,11 +185,11 @@ async function main() {
     play.addEventListener('click', (e) => {
         if (currentSong.paused) {
             currentSong.play()
-            play.src = "/images/pause.svg"
+            play.src = "./images/pause.svg"
         }
         else {
             currentSong.pause()
-            play.src = "/images/play.svg"
+            play.src = "./images/play.svg"
         }
 
 
